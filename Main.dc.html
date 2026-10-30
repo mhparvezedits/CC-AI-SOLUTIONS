@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CC AI Solutions – AI Voice Agents</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+*{box-sizing:border-box}
+a{color:inherit}
+a:hover{opacity:0.82}
+h1,h2,h3,p,span,a{overflow-wrap:break-word}
+[id]{scroll-margin-top:16px}
+[data-cc-root]{--bg:#FFFFFF}
+/* Navigation: full row on wide screens, hamburger once it no longer fits */
+.cc-links,.cc-ctas{display:flex}
+.cc-burger{display:none}
+@media (max-width:1180px){
+  .cc-links,.cc-ctas{display:none}
+  .cc-burger{display:inline-flex}
+}
+@media (min-width:1181px){.cc-mobile{display:none}}
+/* Paired CTA buttons go full-width and stack on small phones */
+@media (max-width:480px){
+  .cc-cta-row > a{flex:1 1 100%;justify-content:center;text-align:center}
+}
+@property --ink{syntax:'<color>';inherits:true;initial-value:#0E1220}
+@property --muted{syntax:'<color>';inherits:true;initial-value:#4A5163}
+@property --line{syntax:'<color>';inherits:true;initial-value:rgba(14,18,32,0.12)}
+@property --line-strong{syntax:'<color>';inherits:true;initial-value:rgba(14,18,32,0.35)}
+@property --eyebrow{syntax:'<color>';inherits:true;initial-value:#9A3412}
+@property --card{syntax:'<color>';inherits:true;initial-value:#FFFFFF}
+@property --inv{syntax:'<color>';inherits:true;initial-value:#FFFFFF}
+</style>
+</helmet>
+<div data-cc-root="" style="font-family: 'Geist', system-ui, sans-serif; overflow-x: clip;--ink: {{tk.ink}}; --muted: {{tk.muted}}; --line: {{tk.line}}; --line-strong: {{tk.lineStrong}}; --eyebrow: {{tk.eyebrow}}; --card: {{tk.card}}; --inv: {{tk.inv}}; background-color: var(--bg); color: var(--ink); transition: {{trans}}; width: 100%; line-height: 1.5">
+
+<!-- ZONE 0 · Porcelain — hero + trust strip -->
+<div data-zone="0">
+<header style="border-bottom: 1px solid var(--line)">
+<nav style="max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px" aria-label="Main">
+<a href="#top" aria-label="CC AI SOLUTIONS home" style="display: flex; align-items: center; text-decoration: none; min-height: 44px; min-width: 0; flex-shrink: 1">
+<img src="./assets/bb029f980973b0019186c93a6ed7715c.png" alt="CC AI SOLUTIONS – Intelligent Voice Agents" width="1386" height="204" style="display: block; height: clamp(26px, 8vw, 38px); width: auto; max-width: 100%">
+</a>
+<div class="cc-links" style="gap: 22px; font-size: 14px; font-weight: 500; align-items: center">
+<a href="#product" style="text-decoration: none; padding: 12px 0">Product</a>
+<a href="#email" style="text-decoration: none; padding: 12px 0">Email Automation</a>
+<a href="#solutions" style="text-decoration: none; padding: 12px 0">Solutions</a>
+<a href="#how" style="text-decoration: none; padding: 12px 0">How It Works</a>
+<a href="#industries" style="text-decoration: none; padding: 12px 0">Industries</a>
+<a href="#faq" style="text-decoration: none; padding: 12px 0">FAQ</a>
+</div>
+<div class="cc-ctas" style="align-items: center; gap: 8px; font-size: 14px; font-weight: 500">
+<a href="#login" style="text-decoration: none; padding: 12px 12px">Log In</a>
+<a href="#start" style="text-decoration: none; padding: 11px 16px; border: 1px solid var(--line-strong); border-radius: 8px">Get Started</a>
+<a href="#demo" style="text-decoration: none; padding: 12px 16px; border-radius: 8px; background: var(--ink); color: var(--inv)">Book a Demo</a>
+</div>
+<button type="button" class="cc-burger" aria-label="{{menuLabel}}" aria-expanded="{{menuExpanded}}" aria-controls="cc-mobile-menu" onClick="{{toggleMenu}}" onKeyDown="{{menuKey}}" style="width: 44px; height: 44px; flex-shrink: 0; align-items: center; justify-content: center; border: 1px solid var(--line-strong); border-radius: 8px; background: transparent; color: inherit; cursor: pointer; padding: 0">
+<sc-if value="{{menuOpen}}" hint-placeholder-val="{{false}}">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>
+</sc-if>
+<sc-if value="{{menuClosed}}" hint-placeholder-val="{{true}}">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16"></path><path d="M4 12h16"></path><path d="M4 17h16"></path></svg>
+</sc-if>
+</button>
+</nav>
+<sc-if value="{{menuOpen}}" hint-placeholder-val="{{false}}">
+<div id="cc-mobile-menu" class="cc-mobile" onKeyDown="{{menuKey}}" style="max-width: 1200px; margin: 0 auto; padding: 4px 24px 20px; display: flex; flex-direction: column; font-size: 16px; font-weight: 500">
+<a href="#product" onClick="{{closeMenu}}" style="text-decoration: none; min-height: 48px; display: flex; align-items: center; border-bottom: 1px solid var(--line)">Product</a>
+<a href="#email" onClick="{{closeMenu}}" style="text-decoration: none; min-height: 48px; display: flex; align-items: center; border-bottom: 1px solid var(--line)">Email Automation</a>
+<a href="#solutions" onClick="{{closeMenu}}" style="text-decoration: none; min-height: 48px; display: flex; align-items: center; border-bottom: 1px solid var(--line)">Solutions</a>
+<a href="#how" onClick="{{closeMenu}}" style="text-decoration: none; min-height: 48px; display: flex; align-items: center; border-bottom: 1px solid var(--line)">How It Works</a>
+<a href="#industries" onClick="{{closeMenu}}" style="text-decoration: none; min-height: 48px; display: flex; align-items: center; border-bottom: 1px solid var(--line)">Industries</a>
+<a href="#faq" onClick="{{closeMenu}}" style="text-decoration: none; min-height: 48px; display: flex; align-items: center; border-bottom: 1px solid var(--line)">FAQ</a>
+<a href="#login" onClick="{{closeMenu}}" style="text-decoration: none; min-height: 48px; display: flex; align-items: center">Log In</a>
+<div class="cc-cta-row" style="display: flex; flex-wrap: wrap; gap: 10px; padding-top: 8px">
+<a href="#start" onClick="{{closeMenu}}" style="text-decoration: none; flex: 1 1 160px; min-height: 48px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--line-strong); border-radius: 8px">Get Started</a>
+<a href="#demo" onClick="{{closeMenu}}" style="text-decoration: none; flex: 1 1 160px; min-height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 8px; background: var(--ink); color: var(--inv)">Book a Demo</a>
+</div>
+</div>
+</sc-if>
+</header>
+
+<section id="top" style="max-width: 1200px; margin: 0 auto; padding: clamp(48px, 9vw, 96px) 24px clamp(40px, 7vw, 72px); display: flex; flex-wrap: wrap; gap: clamp(36px, 5vw, 56px); align-items: center">
+<div style="flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+<div style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--eyebrow)">AI Voice Agents That Work Around the Clock</div>
+<h1 style="margin: 0; font-size: clamp(34px, 6vw, 64px); line-height: 1.04; letter-spacing: -0.035em; font-weight: 600">Turn every call into an opportunity.</h1>
+<p style="margin: 0; font-size: 18px; color: var(--muted); max-width: 540px">Automate inbound and outbound calls with intelligent AI voice agents that talk naturally, answer questions, qualify leads, schedule appointments, and help your business serve more customers without increasing your workload.</p>
+<div class="cc-cta-row" style="display: flex; flex-wrap: wrap; gap: 12px; padding-top: 8px">
+<a href="#demo" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px; padding: 14px 22px; border-radius: 8px; background: {{accent}}; color: #0E1220; font-weight: 600; font-size: 15px">Book a Demo <span aria-hidden="true">→</span></a>
+<a href="#product" style="text-decoration: none; display: inline-flex; align-items: center; padding: 14px 22px; border-radius: 8px; border: 1px solid var(--line-strong); font-weight: 600; font-size: 15px">Explore the Platform</a>
+</div>
+<p style="margin: 0; font-size: 14px; color: var(--muted)">Your next customer conversation could start with AI.</p>
+</div>
+
+<div style="flex: 1 1 400px; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 14px">
+<div style="width: 100%; max-width: 440px; background: #FFFFFF; color: #0E1220; border: 1px solid rgba(14,18,32,0.08); border-radius: 20px; padding: 28px; box-shadow: 0 24px 60px -30px rgba(14,18,32,0.35); display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; justify-content: space-between; align-items: center">
+<span style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A6275">Interactive demo</span>
+<span style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: #166534"><span style="width: 8px; height: 8px; border-radius: 50%; background: #16A34A"></span>Agent online</span>
+</div>
+<div style="display: flex; justify-content: center; padding: 8px 0">
+<button type="button" aria-label="Start talking to the AI agent" style="width: 128px; height: 128px; border-radius: 50%; border: 10px solid #FBE7C2; background: {{accent}}; display: flex; align-items: center; justify-content: center; cursor: pointer">
+<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0E1220" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0"></path><path d="M12 18v3"></path></svg>
+</button>
+</div>
+<div style="text-align: center">
+<div style="font-weight: 600; font-size: 18px">Talk to our AI agent</div>
+<div style="font-size: 14px; color: #5A6275">Experience a real conversation.</div>
+</div>
+</div>
+<div style="font-size: 13px; color: var(--muted)">Click the mic to speak with an agent</div>
+</div>
+</section>
+
+<section id="solutions" style="max-width: 1200px; margin: 0 auto; padding: 24px 24px clamp(56px, 8vw, 88px); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px">
+<h2 style="margin: 0; font-size: 15px; font-weight: 600">Built for Businesses That Run on Conversations</h2>
+<p style="margin: 0; font-size: 14px; color: var(--muted); max-width: 560px">From the first customer inquiry to the final follow-up, automate the calls that keep your business moving.</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; padding-top: 12px">
+<span style="padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px; font-size: 14px; font-weight: 500; background: var(--card)">AI Receptionist</span>
+<span style="padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px; font-size: 14px; font-weight: 500; background: var(--card)">Lead Qualification</span>
+<span style="padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px; font-size: 14px; font-weight: 500; background: var(--card)">Appointment Booking</span>
+<span style="padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px; font-size: 14px; font-weight: 500; background: var(--card)">Customer Support</span>
+<span style="padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px; font-size: 14px; font-weight: 500; background: var(--card)">Outbound Calling</span>
+<span style="padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px; font-size: 14px; font-weight: 500; background: var(--card)">Follow-Ups</span>
+</div>
+</section>
+</div>
+
+<!-- ZONE 1 · Mist — features -->
+<div data-zone="1">
+<section id="product" style="max-width: 1200px; margin: 0 auto; padding: clamp(64px, 10vw, 112px) 24px; display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 640px">
+<div style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--eyebrow)">Platform</div>
+<h2 style="margin: 0; font-size: clamp(30px, 4vw, 40px); letter-spacing: -0.03em; line-height: 1.1; font-weight: 600">Automate conversations. Focus on growth.</h2>
+<p style="margin: 0; font-size: 17px; color: var(--muted)">Give your team an AI-powered assistant that handles repetitive calls, follows your workflows, and helps customers get answers faster.</p>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px">
+
+<div style="background: #FFFFFF; color: #0E1220; border: 1px solid rgba(14,18,32,0.07); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 1px 2px rgba(14,18,32,0.04)">
+<div style="background: #F1F4F9; border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 8px; font-family: 'Geist Mono', monospace; font-size: 12px; color: #444C5E">
+<div style="display: flex; gap: 8px; align-items: center"><span style="width: 6px; height: 6px; border-radius: 50%; background: #0E1220"></span>Greeting</div>
+<div style="display: flex; gap: 8px; align-items: center; padding-left: 14px"><span style="width: 6px; height: 6px; border-radius: 50%; background: #C2410C"></span>Understand request</div>
+<div style="display: flex; gap: 8px; align-items: center; padding-left: 28px"><span style="width: 6px; height: 6px; border-radius: 50%; background: #0E1220"></span>Book · Answer · Route</div>
+</div>
+<div style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A6275">Build</div>
+<h3 style="margin: 0; font-size: 19px; font-weight: 600">AI Voice Agents</h3>
+<p style="margin: 0; font-size: 14px; color: #444C5E">Create intelligent voice agents that understand callers, respond naturally, follow conversation flows, and handle common customer requests.</p>
+</div>
+
+<div style="background: #FFFFFF; color: #0E1220; border: 1px solid rgba(14,18,32,0.07); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 1px 2px rgba(14,18,32,0.04)">
+<div style="background: #F1F4F9; border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 8px; font-family: 'Geist Mono', monospace; font-size: 12px; color: #444C5E">
+<div>Call ended → <span style="color: #0E1220">Send SMS follow-up</span></div>
+<div>Lead captured → <span style="color: #0E1220">Notify sales</span></div>
+<div>Booking made → <span style="color: #0E1220">Update record</span></div>
+</div>
+<div style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A6275">Automate</div>
+<h3 style="margin: 0; font-size: 19px; font-weight: 600">Workflow Automation</h3>
+<p style="margin: 0; font-size: 14px; color: #444C5E">Connect voice conversations to your business workflows. Trigger follow-ups, send notifications, update records, and automate repetitive tasks.</p>
+</div>
+
+<div style="background: #FFFFFF; color: #0E1220; border: 1px solid rgba(14,18,32,0.07); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 1px 2px rgba(14,18,32,0.04)">
+<div style="background: #F1F4F9; border-radius: 10px; padding: 16px; display: flex; flex-wrap: wrap; gap: 8px; font-size: 12px; font-weight: 500">
+<span style="background: #FFFFFF; border: 1px solid #D9DFEA; border-radius: 6px; padding: 6px 10px">CRM</span>
+<span style="background: #FFFFFF; border: 1px solid #D9DFEA; border-radius: 6px; padding: 6px 10px">Calendar</span>
+<span style="background: #FFFFFF; border: 1px solid #D9DFEA; border-radius: 6px; padding: 6px 10px">Database</span>
+<span style="background: #FFFFFF; border: 1px solid #D9DFEA; border-radius: 6px; padding: 6px 10px">Email</span>
+<span style="background: #FFFFFF; border: 1px solid #D9DFEA; border-radius: 6px; padding: 6px 10px">SMS</span>
+</div>
+<div style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A6275">Connect</div>
+<h3 style="margin: 0; font-size: 19px; font-weight: 600">CRM &amp; System Integrations</h3>
+<p style="margin: 0; font-size: 14px; color: #444C5E">Connect your voice agents to supported business tools and databases to retrieve information, capture leads, and keep records organized.</p>
+</div>
+
+<div style="background: #FFFFFF; color: #0E1220; border: 1px solid rgba(14,18,32,0.07); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 1px 2px rgba(14,18,32,0.04)">
+<div style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A6275">Monitor</div>
+<h3 style="margin: 0; font-size: 19px; font-weight: 600">Performance Monitoring</h3>
+<p style="margin: 0; font-size: 14px; color: #444C5E">Track call activity, review conversation outcomes, monitor agent performance, and identify opportunities to improve your customer experience.</p>
+</div>
+
+<div style="background: #FFFFFF; color: #0E1220; border: 1px solid rgba(14,18,32,0.07); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 1px 2px rgba(14,18,32,0.04)">
+<div style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A6275">Improve</div>
+<h3 style="margin: 0; font-size: 19px; font-weight: 600">Test Before You Launch</h3>
+<p style="margin: 0; font-size: 14px; color: #444C5E">Refine prompts, test different conversation flows, and improve agent responses before rolling out changes to live customers.</p>
+</div>
+
+</div>
+</section>
+</div>
+
+<!-- ZONE 2 · Sage — email automation (roadmap: described, not yet live) -->
+<div data-zone="2">
+<section id="email" aria-labelledby="email-title" style="max-width: 1200px; margin: 0 auto; padding: clamp(64px, 10vw, 120px) 24px; display: flex; flex-direction: column; gap: clamp(40px, 5vw, 56px)">
+<div style="display: flex; flex-wrap: wrap; gap: clamp(32px, 4vw, 48px); align-items: center">
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
+<span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--eyebrow)">Email automation</span>
+<span style="display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line-strong); border-radius: 999px; padding: 4px 10px; font-size: 12px; font-weight: 600"><span style="width: 6px; height: 6px; border-radius: 50%; background: var(--eyebrow)"></span>On our roadmap</span>
+</div>
+<h2 id="email-title" style="margin: 0; font-size: clamp(32px, 4.6vw, 48px); letter-spacing: -0.035em; line-height: 1.06; font-weight: 600; max-width: 600px; text-wrap: balance">Never miss a lead and miss out on a job again.</h2>
+<p style="margin: 0; font-size: clamp(19px, 2.2vw, 22px); letter-spacing: -0.02em; line-height: 1.25; font-weight: 600; max-width: 560px">Keep the conversation going after the call ends.</p>
+<p style="margin: 0; font-size: 17px; color: var(--muted); max-width: 560px">We're extending CC AI SOLUTIONS beyond the phone, linking your calls and enquiries to timely emails so follow-ups and lead alerts don't depend on someone remembering to send them.</p>
+<p style="margin: 0; font-size: 14px; color: var(--muted); max-width: 560px; border-top: 1px solid var(--line); padding-top: 14px">Email automation is in development. These features will be offered once they have been built and tested.</p>
+<div class="cc-cta-row" style="display: flex; flex-wrap: wrap; gap: 12px; padding-top: 8px">
+<a href="#demo" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px; padding: 14px 22px; border-radius: 8px; background: {{accent}}; color: #0E1220; font-weight: 600; font-size: 15px">Ask about early access <span aria-hidden="true">→</span></a>
+<a href="#email-features" style="text-decoration: none; display: inline-flex; align-items: center; padding: 14px 22px; border-radius: 8px; border: 1px solid var(--line-strong); font-weight: 600; font-size: 15px">See what's planned</a>
+</div>
+</div>
+
+<figure style="flex: 1 1 380px; min-width: 0; margin: 0; display: flex; flex-direction: column; align-items: center; gap: 12px">
+<div style="width: 100%; max-width: 460px; background: #FFFFFF; color: #0B1A15; border: 1px solid rgba(11,26,21,0.08); border-radius: 20px; padding: clamp(18px, 3vw, 24px); box-shadow: 0 24px 60px -32px rgba(11,60,45,0.4); display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 12px; font-weight: 500">
+<span style="background: #EEF5F1; border-radius: 999px; padding: 6px 10px">Call ends</span>
+<span aria-hidden="true" style="color: #3F5249">→</span>
+<span style="background: #EEF5F1; border-radius: 999px; padding: 6px 10px">Details captured</span>
+<span aria-hidden="true" style="color: #3F5249">→</span>
+<span style="background: #0B1A15; color: #FFFFFF; border-radius: 999px; padding: 6px 10px">Email sent</span>
+</div>
+<div style="border: 1px solid #DCE6E0; border-radius: 12px; overflow: hidden">
+<div style="background: #F6FAF8; padding: 12px 16px; display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: #3F5249; border-bottom: 1px solid #DCE6E0">
+<div><span style="color: #0B1A15; font-weight: 500">From:</span> [Your Business]</div>
+<div><span style="color: #0B1A15; font-weight: 500">To:</span> [Customer email]</div>
+<div style="color: #0B1A15; font-weight: 600; font-size: 14px; padding-top: 4px">Thanks for calling. Here's what happens next</div>
+</div>
+<div style="padding: 16px; display: flex; flex-direction: column; gap: 12px; font-size: 14px; color: #2A3A33">
+<p style="margin: 0">Hi [Customer name],</p>
+<p style="margin: 0">Thanks for speaking with us today. We've noted your request for [service] and a member of our team will follow up shortly.</p>
+<span style="align-self: flex-start; background: #0F6B55; color: #FFFFFF; border-radius: 8px; padding: 10px 14px; font-weight: 600; font-size: 13px">Confirm your appointment</span>
+<p style="margin: 0; font-size: 12px; color: #55665E; border-top: 1px solid #ECF1EE; padding-top: 10px">You're receiving this because you contacted [Your Business].</p>
+</div>
+</div>
+</div>
+<figcaption style="font-size: 13px; color: var(--muted)">Illustrative example of a planned workflow</figcaption>
+</figure>
+</div>
+
+<div id="email-features" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); gap: 16px">
+
+<div style="background: #FFFFFF; color: #0B1A15; border: 1px solid rgba(11,26,21,0.07); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 1px 2px rgba(11,26,21,0.04)">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
+<span style="width: 40px; height: 40px; border-radius: 10px; background: #E2F0EA; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F6B55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg></span>
+<span style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3F5249">Planned</span>
+</div>
+<h3 style="margin: 0; font-size: 18px; font-weight: 600">Customer Follow-Ups</h3>
+<p style="margin: 0; font-size: 14px; color: #3F5249">Follow up after a call or enquiry while the conversation is still fresh.</p>
+</div>
+
+<div style="background: #FFFFFF; color: #0B1A15; border: 1px solid rgba(11,26,21,0.07); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 1px 2px rgba(11,26,21,0.04)">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
+<span style="width: 40px; height: 40px; border-radius: 10px; background: #E2F0EA; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F6B55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"></path></svg></span>
+<span style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3F5249">Planned</span>
+</div>
+<h3 style="margin: 0; font-size: 18px; font-weight: 600">New Lead Notifications</h3>
+<p style="margin: 0; font-size: 14px; color: #3F5249">Let you or your team know by email when a new lead is captured.</p>
+</div>
+
+<div style="background: #FFFFFF; color: #0B1A15; border: 1px solid rgba(11,26,21,0.07); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 1px 2px rgba(11,26,21,0.04)">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
+<span style="width: 40px; height: 40px; border-radius: 10px; background: #E2F0EA; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F6B55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4"></path><path d="M8 3v4"></path><path d="M3 10h18"></path><path d="M9 15l2 2 4-4"></path></svg></span>
+<span style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3F5249">Planned</span>
+</div>
+<h3 style="margin: 0; font-size: 18px; font-weight: 600">Appointment Reminders</h3>
+<p style="margin: 0; font-size: 14px; color: #3F5249">Send confirmations and reminders when a calendar or booking integration is connected.</p>
+</div>
+
+<div style="background: #FFFFFF; color: #0B1A15; border: 1px solid rgba(11,26,21,0.07); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 1px 2px rgba(11,26,21,0.04)">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
+<span style="width: 40px; height: 40px; border-radius: 10px; background: #E2F0EA; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F6B55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h10"></path><path d="M18 6h2"></path><circle cx="16" cy="6" r="2"></circle><path d="M4 12h4"></path><path d="M12 12h8"></path><circle cx="10" cy="12" r="2"></circle><path d="M4 18h12"></path><path d="M20 18h0"></path><circle cx="18" cy="18" r="2"></circle></svg></span>
+<span style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3F5249">Planned</span>
+</div>
+<h3 style="margin: 0; font-size: 18px; font-weight: 600">Custom Email Workflows</h3>
+<p style="margin: 0; font-size: 14px; color: #3F5249">Set the content, timing and rules to fit how your business works.</p>
+</div>
+
+</div>
+
+</section>
+</div>
+
+<!-- ZONE 3 · Cobalt — how it works -->
+<div data-zone="3">
+<section id="how" style="max-width: 1200px; margin: 0 auto; padding: clamp(64px, 10vw, 120px) 24px; display: flex; flex-direction: column; gap: clamp(32px, 4vw, 48px)">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<div style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--eyebrow)">How it works</div>
+<h2 style="margin: 0; font-size: clamp(30px, 4vw, 40px); letter-spacing: -0.03em; line-height: 1.1; font-weight: 600; max-width: 560px">From setup to live calls in three steps</h2>
+</div>
+<a href="#start" style="text-decoration: none; padding: 14px 22px; border-radius: 8px; background: {{accent}}; color: #0E1220; font-weight: 600; font-size: 15px">Build Your First Agent →</a>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 16px">
+<div style="background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 28px; display: flex; flex-direction: column; gap: 12px">
+<div style="font-family: 'Geist Mono', monospace; font-size: 32px; color: var(--eyebrow)">01</div>
+<h3 style="margin: 0; font-size: 20px; font-weight: 600">Configure Your Agent</h3>
+<p style="margin: 0; font-size: 15px; color: var(--muted)">Define your agent's role, instructions, voice, business information, and conversation flow.</p>
+</div>
+<div style="background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 28px; display: flex; flex-direction: column; gap: 12px">
+<div style="font-family: 'Geist Mono', monospace; font-size: 32px; color: var(--eyebrow)">02</div>
+<h3 style="margin: 0; font-size: 20px; font-weight: 600">Connect Your Workflows</h3>
+<p style="margin: 0; font-size: 15px; color: var(--muted)">Configure your phone number, integrations, and automation workflows to connect calls with the systems your business uses.</p>
+</div>
+<div style="background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 28px; display: flex; flex-direction: column; gap: 12px">
+<div style="font-family: 'Geist Mono', monospace; font-size: 32px; color: var(--eyebrow)">03</div>
+<h3 style="margin: 0; font-size: 20px; font-weight: 600">Launch and Optimize</h3>
+<p style="margin: 0; font-size: 15px; color: var(--muted)">Start handling calls, review results, and improve your agent based on real-world performance.</p>
+</div>
+</div>
+</section>
+</div>
+
+<!-- ZONE 3 · Lavender — why choose -->
+<div data-zone="4">
+<section id="why" style="max-width: 1200px; margin: 0 auto; padding: clamp(64px, 10vw, 120px) 24px; display: flex; flex-wrap: wrap; gap: clamp(32px, 4vw, 48px)">
+<div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<div style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--eyebrow)">Why choose CC AI Solutions?</div>
+<h2 style="margin: 0; font-size: clamp(30px, 4vw, 40px); letter-spacing: -0.03em; line-height: 1.1; font-weight: 600">More than an automated phone answer</h2>
+<p style="margin: 0; font-size: 16px; color: var(--muted)">Traditional phone systems route callers through rigid menus. Our AI voice-agent platform is designed to support more natural conversations and configurable business workflows.</p>
+<div style="display: flex; flex-direction: column; gap: 18px; padding-top: 12px">
+<div style="border-top: 1px solid var(--line); padding-top: 14px"><div style="font-weight: 600; font-size: 16px">Natural Conversations</div><div style="font-size: 14px; color: var(--muted)">Give customers a more conversational way to get information and complete routine requests.</div></div>
+<div style="border-top: 1px solid var(--line); padding-top: 14px"><div style="font-weight: 600; font-size: 16px">Always-On Availability</div><div style="font-size: 14px; color: var(--muted)">Configure agents to handle calls outside business hours and help manage periods of high call volume.</div></div>
+<div style="border-top: 1px solid var(--line); padding-top: 14px"><div style="font-weight: 600; font-size: 16px">Consistent Customer Experiences</div><div style="font-size: 14px; color: var(--muted)">Use clear instructions and structured workflows to deliver more consistent responses across routine interactions.</div></div>
+<div style="border-top: 1px solid var(--line); padding-top: 14px"><div style="font-weight: 600; font-size: 16px">Flexible Automation</div><div style="font-size: 14px; color: var(--muted)">Adapt agents to different business needs, from answering common questions to collecting lead information and initiating follow-ups.</div></div>
+<div style="border-top: 1px solid var(--line); padding-top: 14px"><div style="font-weight: 600; font-size: 16px">Designed to Scale</div><div style="font-size: 14px; color: var(--muted)">Build workflows that can support growing call volumes, subject to your plan, provider limits, and infrastructure capacity.</div></div>
+</div>
+</div>
+
+<div style="flex: 1 1 460px; min-width: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 16px; align-content: start">
+<div style="background: #FFFFFF; color: #121027; border: 1px solid rgba(18,16,39,0.08); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 20px 40px -28px rgba(54,40,140,0.35)">
+<div style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #166534">CC AI voice agent</div>
+<div style="background: #F3F1FB; border-radius: 10px; padding: 12px 14px; font-size: 14px">“I need to reschedule my Friday visit.”</div>
+<div style="background: #121027; color: #FFFFFF; border-radius: 10px; padding: 12px 14px; font-size: 14px">“No problem. Would Monday at 11 AM work instead?”</div>
+<div style="font-size: 13px; color: #166534; font-weight: 500; padding-top: 4px">✓ Handled in one conversation</div>
+</div>
+<div style="background: #FFFFFF; color: #121027; border: 1px solid rgba(18,16,39,0.08); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 10px">
+<div style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #9A3412">Traditional phone menu</div>
+<div style="border: 1px dashed #E7B9A3; border-radius: 10px; padding: 10px 14px; font-size: 14px; color: #9A3412">Press 1 for appointments</div>
+<div style="border: 1px dashed #E7B9A3; border-radius: 10px; padding: 10px 14px; font-size: 14px; color: #9A3412">Press 2 for billing</div>
+<div style="border: 1px dashed #E7B9A3; border-radius: 10px; padding: 10px 14px; font-size: 14px; color: #9A3412">Please hold…</div>
+<div style="font-size: 13px; color: #9A3412; font-weight: 500; padding-top: 4px">✕ Rigid menus, long waits</div>
+</div>
+</div>
+</section>
+</div>
+
+<!-- ZONE 4 · Midnight — use cases + industries -->
+<div data-zone="5">
+<section id="use-cases" style="max-width: 1200px; margin: 0 auto; padding: clamp(64px, 10vw, 120px) 24px clamp(40px, 6vw, 72px); display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<div style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--eyebrow)">Use cases</div>
+<h2 style="margin: 0; font-size: clamp(30px, 4vw, 40px); letter-spacing: -0.03em; line-height: 1.1; font-weight: 600; max-width: 620px">One platform. Multiple ways to automate calls.</h2>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px">
+<div style="background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><span style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--eyebrow)">Inbound</span><h3 style="margin: 0; font-size: 18px; font-weight: 600">AI Receptionist</h3><p style="margin: 0; font-size: 14px; color: var(--muted)">Answer incoming calls, share business information, capture caller details, and route requests to the right person.</p></div>
+<div style="background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><span style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--eyebrow)">Sales</span><h3 style="margin: 0; font-size: 18px; font-weight: 600">Lead Qualification</h3><p style="margin: 0; font-size: 14px; color: var(--muted)">Ask relevant questions, identify promising prospects, collect contact details, and send qualified leads to your sales team.</p></div>
+<div style="background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><span style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--eyebrow)">Scheduling</span><h3 style="margin: 0; font-size: 18px; font-weight: 600">Appointment Scheduling</h3><p style="margin: 0; font-size: 14px; color: var(--muted)">Handle booking requests, check connected calendar availability, and support confirmations or rescheduling through configured integrations.</p></div>
+<div style="background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><span style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--eyebrow)">Service</span><h3 style="margin: 0; font-size: 18px; font-weight: 600">Customer Support</h3><p style="margin: 0; font-size: 14px; color: var(--muted)">Answer frequently asked questions, provide service information, and direct complex requests to the appropriate team member.</p></div>
+<div style="background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><span style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--eyebrow)">Outbound</span><h3 style="margin: 0; font-size: 18px; font-weight: 600">Outbound Calling</h3><p style="margin: 0; font-size: 14px; color: var(--muted)">Initiate configured outbound calls for lead follow-ups, reminders, and customer communication, subject to consent and applicable regulations.</p></div>
+<div style="background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><span style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--eyebrow)">After the call</span><h3 style="margin: 0; font-size: 18px; font-weight: 600">Automated Follow-Ups</h3><p style="margin: 0; font-size: 14px; color: var(--muted)">Trigger follow-up workflows after calls, send notifications, and keep customer records updated through supported integrations.</p></div>
+</div>
+</section>
+
+<section id="industries" style="max-width: 1200px; margin: 0 auto; padding: clamp(40px, 6vw, 72px) 24px clamp(64px, 10vw, 120px); display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 640px">
+<div style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--eyebrow)">Industries we serve</div>
+<h2 style="margin: 0; font-size: clamp(30px, 4vw, 40px); letter-spacing: -0.03em; line-height: 1.1; font-weight: 600">AI voice automation for your industry</h2>
+<p style="margin: 0; font-size: 17px; color: var(--muted)">Every business handles calls differently. Configure AI voice agents around your services, customer questions, and workflows.</p>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line)">
+<div style="border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 28px; display: flex; flex-direction: column; gap: 8px"><h3 style="margin: 0; font-size: 18px; font-weight: 600">Home Services</h3><p style="margin: 0; font-size: 14px; color: var(--muted)">Help plumbers, HVAC technicians, electricians, and locksmiths handle inquiries, capture job details, and manage service requests.</p></div>
+<div style="border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 28px; display: flex; flex-direction: column; gap: 8px"><h3 style="margin: 0; font-size: 18px; font-weight: 600">Healthcare &amp; Dental Clinics</h3><p style="margin: 0; font-size: 14px; color: var(--muted)">Answer routine questions, collect appointment requests, and support scheduling workflows while respecting privacy requirements.</p></div>
+<div style="border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 28px; display: flex; flex-direction: column; gap: 8px"><h3 style="margin: 0; font-size: 18px; font-weight: 600">Salons &amp; Spas</h3><p style="margin: 0; font-size: 14px; color: var(--muted)">Handle service inquiries, appointment requests, business-hour questions, and booking-related follow-ups.</p></div>
+<div style="border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 28px; display: flex; flex-direction: column; gap: 8px"><h3 style="margin: 0; font-size: 18px; font-weight: 600">Real Estate</h3><p style="margin: 0; font-size: 14px; color: var(--muted)">Capture property inquiries, qualify prospective clients, and arrange callbacks or viewing requests.</p></div>
+<div style="border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 28px; display: flex; flex-direction: column; gap: 8px"><h3 style="margin: 0; font-size: 18px; font-weight: 600">Professional Services</h3><p style="margin: 0; font-size: 14px; color: var(--muted)">Manage incoming inquiries, collect client information, and route requests to the right person.</p></div>
+<div style="border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 28px; display: flex; flex-direction: column; gap: 8px"><h3 style="margin: 0; font-size: 18px; font-weight: 600">Small &amp; Growing Businesses</h3><p style="margin: 0; font-size: 14px; color: var(--muted)">Reduce repetitive call handling and help customers reach your business beyond standard office hours.</p></div>
+</div>
+</section>
+</div>
+
+<!-- ZONE 5 · Stone — platform workflow + FAQ -->
+<div data-zone="6">
+<section style="max-width: 1200px; margin: 0 auto; padding: clamp(64px, 10vw, 120px) 24px clamp(48px, 8vw, 96px)">
+<div style="background: #FFFFFF; color: #15140F; border: 1px solid rgba(21,20,15,0.08); border-radius: 20px; padding: clamp(24px, 5vw, 48px); display: flex; flex-wrap: wrap; gap: 40px; box-shadow: 0 24px 48px -36px rgba(21,20,15,0.3)">
+<div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-size: clamp(28px, 3.5vw, 36px); letter-spacing: -0.03em; line-height: 1.1; font-weight: 600">A smarter way to handle business calls</h2>
+<p style="margin: 0; font-size: 16px; color: #4D4A42">CC AI SOLUTIONS brings voice conversations and business workflows together in one configurable system.</p>
+</div>
+<ol style="flex: 1 1 440px; min-width: 0; margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column">
+<li style="display: flex; gap: 16px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid #EEEBE3"><span style="font-family: 'Geist Mono', monospace; font-size: 12px; color: #9A3412">01</span><span style="font-size: 16px">Configure AI voice agents for your business.</span></li>
+<li style="display: flex; gap: 16px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid #EEEBE3"><span style="font-family: 'Geist Mono', monospace; font-size: 12px; color: #9A3412">02</span><span style="font-size: 16px">Connect supported phone numbers and integrations.</span></li>
+<li style="display: flex; gap: 16px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid #EEEBE3"><span style="font-family: 'Geist Mono', monospace; font-size: 12px; color: #9A3412">03</span><span style="font-size: 16px">Capture caller details and qualify leads.</span></li>
+<li style="display: flex; gap: 16px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid #EEEBE3"><span style="font-family: 'Geist Mono', monospace; font-size: 12px; color: #9A3412">04</span><span style="font-size: 16px">Trigger automated notifications and follow-ups.</span></li>
+<li style="display: flex; gap: 16px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid #EEEBE3"><span style="font-family: 'Geist Mono', monospace; font-size: 12px; color: #9A3412">05</span><span style="font-size: 16px">Review call activity and conversation outcomes.</span></li>
+<li style="display: flex; gap: 16px; align-items: baseline; padding: 14px 0"><span style="font-family: 'Geist Mono', monospace; font-size: 12px; color: #9A3412">06</span><span style="font-size: 16px">Refine agent instructions and workflows as your business evolves.</span></li>
+</ol>
+</div>
+</section>
+
+<section id="faq" style="max-width: 880px; margin: 0 auto; padding: 24px 24px clamp(64px, 10vw, 120px); display: flex; flex-direction: column; gap: 32px">
+<h2 style="margin: 0; font-size: clamp(30px, 4vw, 40px); letter-spacing: -0.03em; line-height: 1.1; font-weight: 600">Frequently asked questions</h2>
+<div style="display: flex; flex-direction: column; border-top: 1px solid var(--line)">
+<sc-for list="{{faqs}}" as="f" hint-placeholder-count="10">
+<div style="border-bottom: 1px solid var(--line)">
+<button type="button" onClick="{{f.toggle}}" aria-expanded="{{f.expanded}}" style="width: 100%; min-height: 56px; display: flex; justify-content: space-between; align-items: center; gap: 16px; background: none; border: 0; padding: 16px 0; font: inherit; font-size: 16px; font-weight: 500; color: inherit; text-align: left; cursor: pointer">
+<span>{{f.q}}</span>
+<span aria-hidden="true" style="font-size: 20px; color: var(--muted)">{{f.icon}}</span>
+</button>
+<sc-if value="{{f.open}}" hint-placeholder-val="{{false}}">
+<p style="margin: 0; padding: 0 clamp(0px, 4vw, 40px) 20px 0; font-size: 15px; color: var(--muted)">{{f.a}}</p>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</section>
+</div>
+
+<!-- ZONE 6 · Indigo — final call to action -->
+<div data-zone="7">
+<section id="demo" style="max-width: 1200px; margin: 0 auto; padding: clamp(72px, 11vw, 128px) 24px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 18px">
+<div style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--eyebrow)">Get started</div>
+<h2 style="margin: 0; font-size: clamp(32px, 5vw, 56px); letter-spacing: -0.035em; line-height: 1.06; font-weight: 600; max-width: 780px">Ready to transform the way your business handles calls?</h2>
+<p style="margin: 0; font-size: 17px; color: var(--muted); max-width: 580px">Let AI handle routine conversations while you focus on serving customers and growing your business. Discover how AI voice agents can fit into your existing workflows.</p>
+<div class="cc-cta-row" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; padding-top: 12px">
+<a href="#demo" style="text-decoration: none; padding: 15px 24px; border-radius: 8px; background: {{accent}}; color: #0E1220; font-weight: 600; font-size: 15px">Book a Demo →</a>
+<a href="#start" style="text-decoration: none; padding: 15px 24px; border-radius: 8px; border: 1px solid var(--line-strong); font-weight: 600; font-size: 15px">Get Started</a>
+</div>
+</section>
+</div>
+
+<!-- ZONE 7 · Ink — footer -->
+<div data-zone="8">
+<footer style="border-top: 1px solid var(--line)">
+<div style="max-width: 1200px; margin: 0 auto; padding: clamp(48px, 7vw, 64px) 24px 40px; display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; flex-wrap: wrap; gap: 40px; justify-content: space-between">
+<div style="flex: 1 1 260px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: center"><img src="./assets/e660646f824c835b0aed57ab1465e06d.png" alt="CC AI SOLUTIONS – Intelligent Voice Agents" width="1386" height="204" style="display: block; height: 36px; width: auto; max-width: 100%"></div>
+<p style="margin: 0; font-size: 14px; color: var(--muted); max-width: 260px">AI-powered voice conversations for modern businesses.</p>
+</div>
+<div style="flex: 2 1 520px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(140px, 100%), 1fr)); gap: 24px; font-size: 14px">
+<div style="display: flex; flex-direction: column; gap: 0"><div style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted)">Platform</div><a href="#product" style="text-decoration: none; padding: 12px 0">Product</a><a href="#product" style="text-decoration: none; padding: 12px 0">Features</a><a href="#email" style="text-decoration: none; padding: 12px 0">Email Automation</a><a href="#how" style="text-decoration: none; padding: 12px 0">How It Works</a></div>
+<div style="display: flex; flex-direction: column; gap: 0"><div style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted)">Solutions</div><a href="#use-cases" style="text-decoration: none; padding: 12px 0">AI Receptionist</a><a href="#use-cases" style="text-decoration: none; padding: 12px 0">Lead Qualification</a><a href="#use-cases" style="text-decoration: none; padding: 12px 0">Appointment Scheduling</a><a href="#use-cases" style="text-decoration: none; padding: 12px 0">Customer Support</a></div>
+<div style="display: flex; flex-direction: column; gap: 0"><div style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted)">Company</div><a href="#about" style="text-decoration: none; padding: 12px 0">About Us</a><a href="#contact" style="text-decoration: none; padding: 12px 0">Contact</a><a href="#demo" style="text-decoration: none; padding: 12px 0">Book a Demo</a></div>
+<div style="display: flex; flex-direction: column; gap: 0"><div style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted)">Legal</div><a href="#privacy" style="text-decoration: none; padding: 12px 0">Privacy Policy</a><a href="#terms" style="text-decoration: none; padding: 12px 0">Terms of Service</a></div>
+</div>
+</div>
+<div style="border-top: 1px solid var(--line); padding-top: 20px; font-size: 13px; color: var(--muted)">© 2026 CC AI SOLUTIONS. All rights reserved.</div>
+</div>
+</footer>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#F2B544","options":["#F2B544","#F59E0B","#FB923C","#A3E635"]},"sectionColors":{"editor":"boolean","default":true,"section":"Scroll background"},"$preview":{"width":1440,"height":8500}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    // ---- Colour system -------------------------------------------------
+    // One entry per [data-zone] wrapper, top to bottom. Each zone carries a
+    // background plus the tokens for anything drawn directly on it: text,
+    // secondary text, hairlines, outline-button borders, eyebrow labels,
+    // translucent card fill, and the inverse colour for solid ink buttons.
+    // White cards keep their own fixed colours, so they read on any zone.
+    this.zones = [
+      { name: 'Porcelain', dark: false, bg: '#FFFFFF', ink: '#0E1220', muted: '#4A5163', line: 'rgba(14,18,32,0.12)', lineStrong: 'rgba(14,18,32,0.35)', eyebrow: '#9A3412', card: '#FFFFFF', inv: '#FFFFFF' },
+      { name: 'Mist',      dark: false, bg: '#E8EEF7', ink: '#0E1220', muted: '#444C5E', line: 'rgba(14,18,32,0.12)', lineStrong: 'rgba(14,18,32,0.35)', eyebrow: '#9A3412', card: '#FFFFFF', inv: '#FFFFFF' },
+      { name: 'Sage',      dark: false, bg: '#E2F0EA', ink: '#0B1A15', muted: '#3F5249', line: 'rgba(11,26,21,0.12)', lineStrong: 'rgba(11,26,21,0.35)', eyebrow: '#0F6B55', card: '#FFFFFF', inv: '#FFFFFF' },
+      { name: 'Cobalt',    dark: true,  bg: '#1C3272', ink: '#F5F7FF', muted: '#C9D4F2', line: 'rgba(255,255,255,0.16)', lineStrong: 'rgba(255,255,255,0.45)', eyebrow: '#F2B544', card: 'rgba(255,255,255,0.06)', inv: '#0E1220' },
+      { name: 'Lavender',  dark: false, bg: '#EDEAF8', ink: '#121027', muted: '#4A4863', line: 'rgba(18,16,39,0.12)', lineStrong: 'rgba(18,16,39,0.35)', eyebrow: '#5236B8', card: '#FFFFFF', inv: '#FFFFFF' },
+      { name: 'Midnight',  dark: true,  bg: '#0B1430', ink: '#F3F5FB', muted: '#A9B4D0', line: 'rgba(255,255,255,0.12)', lineStrong: 'rgba(255,255,255,0.4)', eyebrow: '#F2B544', card: 'rgba(255,255,255,0.04)', inv: '#0B1430' },
+      { name: 'Stone',     dark: false, bg: '#F4F2EE', ink: '#15140F', muted: '#4D4A42', line: 'rgba(21,20,15,0.12)', lineStrong: 'rgba(21,20,15,0.35)', eyebrow: '#9A3412', card: '#FFFFFF', inv: '#FFFFFF' },
+      { name: 'Indigo',    dark: true,  bg: '#3A33B0', ink: '#FFFFFF', muted: '#DCDAF7', line: 'rgba(255,255,255,0.2)', lineStrong: 'rgba(255,255,255,0.55)', eyebrow: '#FFD27A', card: 'rgba(255,255,255,0.08)', inv: '#3A33B0' },
+      { name: 'Ink',       dark: true,  bg: '#080C1A', ink: '#EEF1F8', muted: '#98A2BC', line: 'rgba(255,255,255,0.1)', lineStrong: 'rgba(255,255,255,0.35)', eyebrow: '#F2B544', card: 'rgba(255,255,255,0.04)', inv: '#080C1A' }
+    ];
+    this.state = { open: 0, tok: 0, reduced: false, menuOpen: false };
+    this._bg = '';
+    this._dirty = true;
+  }
+
+  // ---- Scroll-driven blending ------------------------------------------
+  // Performance: zone positions are measured once and cached; they are only
+  // re-measured when the layout changes (resize, menu or FAQ toggles, fonts
+  // loading). Each scroll frame then does pure arithmetic, writes the
+  // background straight to the --bg custom property, and only re-renders
+  // the page when the text colour set actually switches.
+  componentDidMount() {
+    this._root = document.querySelector('[data-cc-root]');
+    this._mq = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+    this._onMq = () => this.setState({ reduced: !!(this._mq && this._mq.matches) });
+    this._schedule = () => {
+      if (this._raf) return;
+      this._raf = requestAnimationFrame(() => { this._raf = 0; this.measure(); });
+    };
+    this._onScroll = (e) => {
+      const t = e && e.target;
+      if (t && t.nodeType === 1 && t.scrollHeight > t.clientHeight && t !== this._scroller) {
+        this._scroller = t; this._dirty = true;
+      }
+      this._schedule();
+    };
+    this._onResize = () => { this._dirty = true; this._schedule(); };
+    document.addEventListener('scroll', this._onScroll, { capture: true, passive: true });
+    window.addEventListener('resize', this._onResize, { passive: true });
+    if (window.ResizeObserver && this._root) {
+      this._ro = new ResizeObserver(this._onResize);
+      this._ro.observe(this._root);
+    }
+    if (this._mq && this._mq.addEventListener) this._mq.addEventListener('change', this._onMq);
+    this._onMq();
+    this.measure();
+  }
+  componentDidUpdate() {
+    // Re-apply --bg in case a re-render rewrote the root's inline style
+    // (runs before paint, so there is no flash).
+    this._root = document.querySelector('[data-cc-root]') || this._root;
+    if (this._root && this._bg) this._root.style.setProperty('--bg', this._bg);
+    this._dirty = true;
+    this._schedule();
+  }
+  componentWillUnmount() {
+    document.removeEventListener('scroll', this._onScroll, { capture: true });
+    window.removeEventListener('resize', this._onResize);
+    if (this._ro) this._ro.disconnect();
+    if (this._mq && this._mq.removeEventListener) this._mq.removeEventListener('change', this._onMq);
+    if (this._raf) cancelAnimationFrame(this._raf);
+  }
+  setBg(bg) {
+    if (bg === this._bg || !this._root) return;
+    this._bg = bg;
+    this._root.style.setProperty('--bg', bg);
+  }
+
+  // A "probe" line travels down the viewport as you scroll: it sits at the
+  // very top of the screen on load, at mid-screen through the middle of the
+  // page, and at the bottom edge at the end. So the hero starts blending on
+  // the first pixel and the footer's colour is always reached.
+  // Each zone holds its own colour while the probe is well inside it, and
+  // blends (eased) into the next zone across their shared boundary.
+  measure() {
+    if (!(this.props.sectionColors ?? true)) {
+      this.setBg('#FFFFFF');
+      if (this.state.tok !== 0) this.setState({ tok: 0 });
+      return;
+    }
+    const el = this._scroller || document.scrollingElement || document.documentElement;
+    const isDoc = el === document.scrollingElement || el === document.documentElement;
+    const top = isDoc ? (window.scrollY || el.scrollTop) : el.scrollTop;
+    const viewH = isDoc ? window.innerHeight : el.clientHeight;
+
+    if (this._dirty || !this._holds) {
+      this._dirty = false;
+      const offset = isDoc ? 0 : el.getBoundingClientRect().top;
+      const nodes = document.querySelectorAll('[data-zone]');
+      const n = Math.min(nodes.length, this.zones.length);
+      const holds = [];
+      for (let i = 0; i < n; i++) {
+        const r = nodes[i].getBoundingClientRect();
+        const zt = r.top - offset + top, zb = r.bottom - offset + top;
+        const pad = Math.min(viewH * 0.2, (zb - zt) * 0.25);
+        let hs = zt + pad, he = zb - pad;
+        if (i === 0) { hs = -Infinity; he = 0; }          // hero blends from scroll 0
+        if (i === n - 1) he = Infinity;                   // footer holds to the end
+        if (he < hs) { const m = (hs + he) / 2; hs = m; he = m; }
+        holds.push([hs, he]);
+      }
+      this._holds = holds;
+      this._max = Math.max(1, el.scrollHeight - viewH);
+      this._viewH = viewH;
+    }
+    const holds = this._holds;
+    const n = holds.length;
+    if (!n) return;
+    const probe = top + this._viewH * Math.min(1, top / this._max);
+
+    let a = 0, b = 0, t = 0;
+    for (let i = 0; i < n; i++) {
+      if (probe <= holds[i][1]) {
+        if (i > 0 && probe < holds[i][0]) {
+          a = i - 1; b = i;
+          t = (probe - holds[i - 1][1]) / Math.max(1, holds[i][0] - holds[i - 1][1]);
+        } else { a = i; b = i; t = 0; }
+        break;
+      }
+    }
+    t = Math.min(1, Math.max(0, t));
+    t = t * t * (3 - 2 * t); // smoothstep
+    const za = this.zones[a], zb = this.zones[b];
+    const ca = this.rgb(za.bg), cb = this.rgb(zb.bg);
+    const mixed = ca.map((c, k) => Math.round(c + (cb[k] - c) * t));
+    const bg = 'rgb(' + mixed.join(', ') + ')';
+
+    // Foreground tokens: use whichever zone's ink reads better on the
+    // colour actually on screen right now. Between two light (or two dark)
+    // zones this simply hands over at the midpoint.
+    let tok = t < 0.5 ? a : b;
+    if (za.dark !== zb.dark) {
+      const L = this.lum(mixed);
+      tok = this.contrast(L, this.lum(this.rgb(za.ink))) >= this.contrast(L, this.lum(this.rgb(zb.ink))) ? a : b;
+    }
+    this.setBg(bg);
+    if (tok !== this.state.tok) this.setState({ tok: tok });
+  }
+  rgb(h) { return [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)); }
+  lum(c) {
+    const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+    return 0.2126 * f(c[0]) + 0.7152 * f(c[1]) + 0.0722 * f(c[2]);
+  }
+  contrast(l1, l2) { return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05); }
+
+  renderVals() {
+    const on = this.props.sectionColors ?? true;
+    const tk = on ? this.zones[this.state.tok] : this.zones[0];
+    const menuOpen = this.state.menuOpen;
+    const focusBurger = () => { const b = document.querySelector('.cc-burger'); if (b) b.focus(); };
+    const trans = this.state.reduced
+      ? 'none'
+      : 'background-color 120ms linear, --ink 260ms ease, --muted 260ms ease, --line 260ms ease, --line-strong 260ms ease, --eyebrow 260ms ease, --card 260ms ease, --inv 260ms ease';
+
+    const data = [
+      ["What is CC AI SOLUTIONS?", "CC AI SOLUTIONS provides an AI voice-agent platform designed to help businesses automate phone conversations, answer routine questions, capture leads, support appointment scheduling, and connect calls to business workflows."],
+      ["How do AI voice agents work?", "An AI voice agent listens to a caller, interprets the request, and responds conversationally. Its instructions, integrations, and configured workflows determine which tasks it can perform."],
+      ["Can the AI answer calls 24/7?", "Agents can be configured to handle calls outside regular business hours, subject to phone-service availability, system configuration, and provider limits."],
+      ["Can I use the AI agent for my industry?", "The platform is designed to support different business types, including home services, clinics, salons, real estate, and professional services. Specific capabilities depend on your configuration and integrations."],
+      ["Can the AI book appointments?", "Appointment scheduling can be supported when the appropriate calendar or booking integration is connected and configured."],
+      ["Can the AI collect customer information?", "Yes. Agents can be configured to collect information such as a caller's name, phone number, service requirements, and other relevant details."],
+      ["Can I connect my existing business tools?", "Supported integrations can connect voice agents with business systems, databases, calendars, and automation workflows. Availability depends on the tools and configuration."],
+      ["Do I need technical knowledge to get started?", "The setup process can be managed with assistance. The exact configuration depends on your business requirements, phone service, integrations, and desired automation."],
+      ["Can I test the AI before using it with customers?", "A demo or testing environment can let you evaluate conversations and refine the agent's instructions before deploying it to live calls."],
+      ["Is the platform suitable for a growing business?", "The platform can be configured for growing businesses, subject to subscription terms, telephony costs, provider limits, and infrastructure capacity."]
+    ];
+    const faqs = data.map((d, i) => {
+      const open = this.state.open === i;
+      return {
+        q: d[0], a: d[1], open: open, expanded: open ? "true" : "false", icon: open ? "−" : "+",
+        toggle: () => this.setState({ open: open ? -1 : i })
+      };
+    });
+    return {
+      accent: this.props.accent ?? '#F2B544', faqs: faqs, tk: tk, trans: trans,
+      menuOpen: menuOpen,
+      menuClosed: !menuOpen,
+      menuExpanded: menuOpen ? 'true' : 'false',
+      menuLabel: menuOpen ? 'Close menu' : 'Open menu',
+      toggleMenu: () => this.setState({ menuOpen: !menuOpen }),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      menuKey: (e) => {
+        if (e.key === 'Escape' && this.state.menuOpen) {
+          e.stopPropagation();
+          this.setState({ menuOpen: false });
+          focusBurger();
+        }
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

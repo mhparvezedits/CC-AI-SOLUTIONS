@@ -7,7 +7,7 @@
  *   visitor's click gesture.
  * - The microphone is requested once, by Vapi itself, when the call starts.
  * - The conversation is entirely handled by the Vapi assistant; this file only
- *   opens/closes the audio session and shows its state and transcript.
+ *   opens/closes the audio session and shows its state. No transcript is shown.
  * Uses the PUBLIC key from config.js. No private keys, ever.
  */
 (function () {
@@ -52,47 +52,6 @@
     active: 'End the call',
     ending: 'Ending the call'
   };
-
-  /* ---------- Live transcript in the existing message area ----------
-   * The two sample bubbles are used only as style templates (caller bubble on
-   * the left, assistant bubble on the right), so live messages look identical.
-   * The samples stay on screen until a real call connects. */
-  var transcriptBox = document.getElementById('cc-voice-transcript');
-  var bubbleTpl = null;
-  if (transcriptBox && transcriptBox.children.length >= 2) {
-    bubbleTpl = {
-      user: transcriptBox.children[0].cloneNode(false),
-      assistant: transcriptBox.children[1].cloneNode(false)
-    };
-  }
-  var openBubble = { user: null, assistant: null }; // bubble still receiving partials
-  var TRANSCRIPT_MAX_HEIGHT = '220px';
-
-  function resetTranscript() {
-    if (!transcriptBox || !bubbleTpl) return;
-    transcriptBox.textContent = '';
-    openBubble.user = null;
-    openBubble.assistant = null;
-    // Long conversations scroll inside the card instead of stretching the page.
-    transcriptBox.style.maxHeight = TRANSCRIPT_MAX_HEIGHT;
-    transcriptBox.style.overflowY = 'auto';
-  }
-
-  function onTranscript(msg) {
-    if (!bubbleTpl || state !== 'active') return;         // no updates once the call ends
-    if (!msg || msg.type !== 'transcript') return;
-    var role = msg.role === 'user' ? 'user' : (msg.role === 'assistant' ? 'assistant' : null);
-    var text = (msg.transcript || '').trim();
-    if (!role || !text) return;
-    var bubble = openBubble[role];
-    if (!bubble) {                                         // first piece of a new utterance
-      bubble = bubbleTpl[role].cloneNode(false);
-      transcriptBox.appendChild(bubble);
-    }
-    bubble.textContent = text;                             // partials replace, never append
-    openBubble[role] = msg.transcriptType === 'final' ? null : bubble;
-    transcriptBox.scrollTop = transcriptBox.scrollHeight;
-  }
 
   /* ---------- Button state ---------- */
   var micIcon = btn.querySelector('[data-cc-voice-icon="mic"]');
@@ -236,10 +195,8 @@
     instance.on('call-start', function () {
       if (state !== 'connecting') return;
       clearConnectTimer();
-      resetTranscript();
       setState('active');
     });
-    instance.on('message', onTranscript);
     instance.on('call-end', function () {
       clearConnectTimer();
       if (state === 'active' || state === 'ending') setState('idle', TEXT.ended);

@@ -22,8 +22,7 @@ HOW TO TEST
    - A black window opens and Chrome/Edge opens http://localhost:8080
    - Keep the black window open while testing. Close it to stop the site.
 4. In the browser tab, click the yellow mic button and choose "Allow".
-5. Wait for "Connected. Start talking", then speak. Your words and the
-   assistant's replies appear in the demo card.
+5. Wait for "Connected. Start talking", then speak normally.
 6. Click the mic again (it shows a square) to end the call.
 
 Always test in a normal Chrome or Edge tab at http://localhost:8080 -
